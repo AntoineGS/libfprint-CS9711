@@ -7,6 +7,25 @@ This is a continuation of @ddlsmurf's [Chipsailing CS9711 driver](https://github
 while this author is very happy with the result, it should not be used for anything
 serious without serious testing.**
 
+## Arch Linux build
+
+This fork includes the CS9711 changes from
+[upstream PR #3](https://github.com/archeYR/libfprint-CS9711/pull/3)
+(`d2cd0db`), rebased onto `cs9711-rebase`, with OpenCV 4 and 5 build support.
+The local `PKGBUILD` builds only the CS9711 driver from this checkout.
+
+```sh
+sudo pacman -S --needed base-devel meson ninja glib2-devel gobject-introspection doctest opencv libgusb fprintd
+makepkg -si
+sudo systemctl restart fprintd
+fprintd-list "$USER"
+fprintd-verify
+```
+
+On a new machine, run `fprintd-enroll` before verification. Existing enrollments
+are kept when upgrading this package. Rebuild with `makepkg -Cfi` after an
+OpenCV ABI upgrade if fprintd reports a missing `libopencv_*.so` library.
+
 # Original `README.md` left below
 <hr />
 
